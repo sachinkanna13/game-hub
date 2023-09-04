@@ -1,12 +1,14 @@
-import { Grid, GridItem, Show } from '@chakra-ui/react';
+import { Box, Grid, GridItem, HStack, Heading, Show } from '@chakra-ui/react';
 import NavBar from './components/NavBar';
 import GameGrid from './components/GameGrid';
 import GenreList from './components/GenreList';
 import { useState } from 'react';
-import { Genre } from './hooks/useGenres';
+import PlatformSelector from './components/PlatformSelector';
+import { GameQuery } from './interfaces';
+import SortSelector from './components/SortSelector';
 
 function App() {
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
 
   return (
     <Grid
@@ -25,16 +27,37 @@ function App() {
       <Show above="lg">
         <GridItem area="aside" paddingX={5}>
           <GenreList
-            selectedGenre={selectedGenre}
+            selectedGenre={gameQuery.genre}
             onSelectGenre={(genre) => {
               console.log(genre);
-              setSelectedGenre(genre);
+              setGameQuery({ ...gameQuery, genre });
             }}
           />
         </GridItem>
       </Show>
       <GridItem area="main">
-        <GameGrid selectedGenre={selectedGenre} />
+        <Box padding={2}>
+          <Heading as={'h1'} marginBlock={4}>
+            {`${gameQuery.platform?.name || ''} ${
+              gameQuery.genre?.name || ''
+            } Games`}
+          </Heading>
+          <HStack spacing={4}>
+            <PlatformSelector
+              selectedPlatform={gameQuery.platform}
+              onSelectedPlatform={(platform) =>
+                setGameQuery({ ...gameQuery, platform })
+              }
+            />
+            <SortSelector
+              sortOrder={gameQuery.sortOrder}
+              onSelectSortOrder={(sortOrder) =>
+                setGameQuery({ ...gameQuery, sortOrder })
+              }
+            />
+          </HStack>
+        </Box>
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );
