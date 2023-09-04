@@ -1,6 +1,5 @@
-import { Genre } from '../interfaces';
-import useData from './useData';
+import { genres } from '../constants/data';
 
-const useGenres = () => useData<Genre>('/genres');
+const useGenres = () => ({ data: genres, isLoading: false, error: null });
 
 export default useGenres;
