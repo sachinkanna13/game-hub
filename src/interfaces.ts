@@ -1,3 +1,9 @@
+export interface FetchResponse<T> {
+  count: number;
+  results: T[];
+  next: string | null;
+}
+
 export interface Platform {
   id: number;
   name: string;
@@ -19,7 +25,8 @@ export interface Genre {
 }
 
 export interface GameQuery {
-  genre: Genre | null;
-  platform: Platform | null;
-  sortOrder: string;
+  genreId?: number;
+  platformId?: number;
+  sortOrder?: string;
+  searchText?: string;
 }
