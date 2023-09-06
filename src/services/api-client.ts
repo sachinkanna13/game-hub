@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { FetchResponse } from '../interfaces';
+import { FetchResponse } from '../entities/FetchResponse';
 
 const axiosInstance = axios.create({
   baseURL: 'https://api.rawg.io/api',
